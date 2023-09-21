@@ -1,9 +1,13 @@
 'use client';
+
 import Image from 'next/image';
+import axios from 'axios';
 
 export default function Home() {
-  const onEditingClick = () => {
-    alert('editing clicked');
+  const onEditingClick = async () => {
+    const response = await axios.get('/api/hello');
+    const message = response.data.message;
+    alert(message);
   };
 
   return (
