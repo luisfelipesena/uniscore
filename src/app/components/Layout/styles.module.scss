@@ -1,0 +1,13 @@
+.layoutContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 6px 12px;
+}
+
+.layout {
+  display: flex column;
+  flex: 1 0 auto;
+  max-width: $ultra-large-screen;
+}

@@ -1,0 +1,15 @@
+.headerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: blue;
+  padding: 6px 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex: 1 0 auto;
+  max-width: $ultra-large-screen;
+}

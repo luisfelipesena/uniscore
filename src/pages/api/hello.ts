@@ -1,12 +1,25 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type ResponseData = {
-  message: string;
+import axios from 'axios';
+
+export type ResponseData = {
+  data: DumbExternalApi[];
 };
 
-export default function handler(
+type DumbExternalApi = {
+  ticker: string;
+  name: string;
+  is_etf: string | null;
+  exchange: string;
+};
+
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  res.status(200).json({ message: 'Hello from Next.js!' });
+  const apiResponse = await axios.get(
+    'https://dumbstockapi.com/stock?countries=CA,US&ticker_search=AA'
+  );
+  const data = apiResponse.data;
+  res.status(200).json({ data });
 }
