@@ -1,6 +1,6 @@
 import { Header } from '@/app/components/Header';
 import { Layout } from '@/app/components/Layout';
-import { ResponseData } from './api/hello';
+import { ResponseData } from './api/dumbapi';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -8,9 +8,17 @@ export default function Home() {
   const [apiResponse, setApiResponse] = useState<ResponseData | null>(null);
 
   const onButtonClick = async () => {
-    const fetchApi = await axios.get('/api/hello');
-    const data = fetchApi.data;
-    setApiResponse(data);
+    try {
+      const fetchDatabase = await axios.get('/api/database-test');
+      const database = fetchDatabase.data;
+      console.log(database);
+
+      const fetchApi = await axios.get('/api/dumbapi');
+      const data = fetchApi.data;
+      setApiResponse(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

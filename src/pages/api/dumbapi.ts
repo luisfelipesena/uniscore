@@ -21,5 +21,6 @@ export default async function handler(
     'https://dumbstockapi.com/stock?countries=CA,US&ticker_search=AA'
   );
   const data = apiResponse.data;
-  res.status(200).json({ data });
+
+  return res.status(200).json({ data });
 }
