@@ -1,4 +1,4 @@
-import { ITestTable, database } from './factory';
+import { ITestTable, database } from '@/services/api/factory';
 
 import { NextResponse } from 'next/server';
 
