@@ -1569,7 +1569,7 @@
   dependencies:
     "json-buffer" "3.0.1"
 
-"kysely@^0.24.2 || ^0.25.0 || ^0.26.0":
+"kysely@^0.24.2 || ^0.25.0 || ^0.26.0", "kysely@^0.26.3":
   "integrity" "sha512-yWSgGi9bY13b/W06DD2OCDDHQmq1kwTGYlQ4wpZkMOJqMGCstVCFIvxCCVG4KfY1/3G0MhDAcZsip/Lw8/vJWw=="
   "resolved" "https://registry.npmjs.org/kysely/-/kysely-0.26.3.tgz"
   "version" "0.26.3"
