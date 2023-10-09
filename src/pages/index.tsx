@@ -41,7 +41,7 @@ export default function Home() {
   return (
     <>
       <Header>
-        <h1>Produção científica</h1>
+        <h1>Uniscore</h1>
       </Header>
       <Layout>
         <ul style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
