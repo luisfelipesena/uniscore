@@ -1,4 +1,5 @@
 import { DumbApiResponseData } from '@/app/api/dumbapi/route';
+import { EnhancedTable } from '@/app/components/Table-Exemple/Table';
 import { Header } from '@/app/components/Header';
 import { Layout } from '@/app/components/Layout';
 import axios from 'axios';
@@ -44,14 +45,20 @@ export default function Home() {
         <h1>Uniscore</h1>
       </Header>
       <Layout>
-        <ul style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-          {apiResponse?.data &&
-            apiResponse.data.map((item, index) => {
-              return <li key={index}>Name: {item.name}</li>;
-            })}
-        </ul>
+        <main>
+          <ul style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+            {apiResponse?.data &&
+              apiResponse.data.map((item, index) => {
+                return <li key={index}>Name: {item.name}</li>;
+              })}
+          </ul>
 
-        <button onClick={onButtonClick}>Clique para atualizar api</button>
+          <button onClick={onButtonClick}>Clique para atualizar api</button>
+        </main>
+        <div>
+          <p>TEXtO</p>
+          <EnhancedTable />
+        </div>
       </Layout>
     </>
   );
