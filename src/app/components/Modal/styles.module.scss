@@ -1,0 +1,28 @@
+.dialog {
+  display: 100%;
+}
+
+.container {
+  padding: 48px;
+}
+
+.actionsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 36px;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.childrenContainer {
+  padding: 24px 12px;
+}
+
+@media (max-width: $extra-small-screen) {
+  .container {
+    padding: 24px;
+  }
+}

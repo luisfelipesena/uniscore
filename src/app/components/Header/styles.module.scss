@@ -1,15 +1,19 @@
 .headerContainer {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   background-color: $primary-color;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
   padding: 6px 12px;
 }
 
 .header {
   display: flex;
   align-items: center;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   max-width: $ultra-large-screen;
+  color: white;
 }

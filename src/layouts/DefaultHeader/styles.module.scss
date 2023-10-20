@@ -1,0 +1,43 @@
+.defaultHeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.buttonsDiv {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  & span {
+    font-size: 14px;
+  }
+}
+
+.modal {
+  & [class~='MuiPaper-root'] {
+    max-width: 600px;
+  }
+
+  & form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  & .formButton {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: $extra-small-screen) {
+  .modal {
+    width: 100%;
+  }
+
+  .defaultHeaderContainer {
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  }
+}
