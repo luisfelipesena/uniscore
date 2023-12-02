@@ -1,28 +1,30 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User, pool } from '../database/factory';
+import { User, getPoolDb } from '../database/factory';
 import nodemailer from 'nodemailer';
 const jwtSecret = process.env.JWT_SECRET || '4queijos';
+
+const pool = getPoolDb();
 
 export async function registrarUsuario(
   bodyParams: Omit<User, 'id'>
 ): Promise<User | undefined> {
   const { nome, email, senha } = bodyParams;
-
-  try {
-    const senhaCriptografada = await bcrypt.hash(senha, 10);
-    const query =
-      'INSERT INTO users (nome, email, senha) VALUES ($1, $2, $3) RETURNING id, nome, email';
-    const values = [nome, email, senhaCriptografada];
-    const result = await pool.query<User>(query, values);
-
-    const usuarioRegistrado = result.rows[0];
-    return usuarioRegistrado;
-  } catch (error) {
-    console.error('Erro ao registrar usuário:', error);
-    return;
+  const userQuery = 'SELECT * FROM users WHERE email = $1';
+  const userAlreadyExists = await pool.query(userQuery, [email]);
+  if (userAlreadyExists.rows[0]) {
+    throw new Error('Usuário já existe');
   }
+
+  const senhaCriptografada = await bcrypt.hash(senha, 10);
+  const query =
+    'INSERT INTO users (nome, email, senha) VALUES ($1, $2, $3) RETURNING id, nome, email';
+  const values = [nome, email, senhaCriptografada];
+  const result = await pool.query<User>(query, values);
+
+  const usuarioRegistrado = result.rows[0];
+  return usuarioRegistrado;
 }
 
 export async function loginUsuario(req: Request, res: Response) {

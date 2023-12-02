@@ -1,40 +1,18 @@
-import { DumbApiResponseData } from '@/app/api/dumbapi/route';
 import { Header } from '@/app/components/Header';
 import { Layout } from '@/app/components/Layout';
 import axios from 'axios';
-import { useState } from 'react';
 
 export default function Home() {
-  const [apiResponse, setApiResponse] = useState<DumbApiResponseData | null>(
-    null
-  );
-
   const onButtonClick = async () => {
     try {
-      const fetchDatabase = await axios.get('/api/database');
-      const database = fetchDatabase.data;
-      console.log({ database });
-    } catch (error) {
-      console.error(error);
-    }
-
-    try {
-      const fetchApi = await axios.get('/api/dumbapi?name=Teste');
-      const data = fetchApi.data;
-      setApiResponse(data);
-    } catch (error) {
-      console.error(error);
-    }
-
-    try {
-      const fetchApi = await axios.post('/api/dumbapi', {
-        name: 'Teste',
-        email: 'email',
+      const response = await axios.post('/api/cadastro', {
+        nome: 'Teste',
+        email: 'teste@teste.com',
+        senha: '123',
       });
-      const data = fetchApi.data;
-      setApiResponse(data);
+      console.log(response.data);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -45,10 +23,9 @@ export default function Home() {
       </Header>
       <Layout>
         <ul style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-          {apiResponse?.data &&
-            apiResponse.data.map((item, index) => {
-              return <li key={index}>Name: {item.name}</li>;
-            })}
+          <li style={{ listStyle: 'none' }}>
+            <a href="/api/producoes">Produções</a>
+          </li>
         </ul>
 
         <button onClick={onButtonClick}>Clique para atualizar api</button>
