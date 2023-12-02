@@ -1,19 +1,20 @@
-import Button, { ButtonProps } from '@mui/material/Button';
+import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
 
 import React from 'react';
 
-interface GenericButtonProps extends ButtonProps {
+interface GenericButtonProps extends LoadingButtonProps {
   children: React.ReactNode;
 }
 
 const GenericButton: React.FC<GenericButtonProps> = ({
   children,
+  loading = false,
   ...props
 }) => {
   return (
-    <Button type={props?.type ?? 'button'} {...props}>
+    <LoadingButton loading={loading} type={props?.type ?? 'button'} {...props}>
       {children}
-    </Button>
+    </LoadingButton>
   );
 };
 

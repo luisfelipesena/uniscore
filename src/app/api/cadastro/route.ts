@@ -4,7 +4,7 @@ import { registrarUsuario } from '../controllers/users';
 
 export async function POST(
   req: Request
-): Promise<NextResponse<{ data: User | unknown }>> {
+): Promise<NextResponse<{ data: User | undefined }>> {
   try {
     const data = (await req.json()) as User;
     const { email, senha, nome } = data as User;
