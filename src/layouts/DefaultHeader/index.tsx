@@ -6,8 +6,16 @@ import { Modal } from '@/app/components/Modal';
 import React from 'react';
 import { TextField } from '@mui/material';
 import styles from './styles.module.scss';
+import { useForm } from 'react-hook-form';
 
 export function DefaultHeader() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
   const [signInCliked, setSignInCliked] = React.useState(false);
   const [signUpCliked, setSignUpCliked] = React.useState(false);
 
@@ -90,11 +98,12 @@ export function DefaultHeader() {
             const formValues = new FormData(ev.target as HTMLFormElement);
             const email = formValues.get('email');
             const password = formValues.get('password');
-
+            const nome = formValues.get('nome');
             // cadastrar no banco como admin
-            console.log({ email, password });
+            console.log({ email, password, nome });
           }}
         >
+          <TextField placeholder="Nome" />
           <TextField placeholder="E-mail" type="email" />
           <TextField placeholder="Senha" type="password" />
 

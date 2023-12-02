@@ -8,8 +8,11 @@ export const authOptions: AuthOptions = {
         email: {
           type: 'email',
         },
-        password: {
+        senha: {
           type: 'password',
+        },
+        nome: {
+          type: 'text',
         },
       },
       async authorize(credentials) {
@@ -32,4 +35,5 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
+  secret: process.env.JWT_SECRET,
 };
