@@ -45,3 +45,16 @@ export async function loginUsuario(bodyParams: Omit<User, 'id' | 'nome'>) {
     throw new Error('Usuário ou senha incorretos');
   }
 }
+
+export async function buscarUsuarios(): Promise<any[] | undefined> {
+  try {
+    const query = 'SELECT * FROM users';
+    const result = await pool.query(query);
+
+    return result.rows;
+  } catch (error) {
+    console.error('Erro ao buscar usuários:', error);
+    return undefined;
+  }
+}
+

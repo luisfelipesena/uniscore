@@ -1,28 +1,26 @@
 import { NextResponse } from 'next/server';
-import { consultarDadosDBLP } from '../controllers/dblp/index';
+import { buscarUsuarios } from '../controllers/users/index';
+import e from 'express';
 
 export async function GET(
-  req: Request
+  req: e.Request
 ): Promise<NextResponse<{ data: any }>> {
-    const url = new URL(req.url);
-    const autor = url.searchParams.get('autor') || '';
-
   try {
-    const dadosDBLP = await consultarDadosDBLP(autor);
+    const usuarios = await buscarUsuarios();
 
-    if (dadosDBLP) {
+    if (usuarios) {
       return NextResponse.json(
-        { data: dadosDBLP },
+        { data: usuarios },
         { status: 200 }
       );
     } else {
       return NextResponse.json(
-        { data: { mensagem: 'Erro ao consultar dados da DBLP' } },
+        { data: { mensagem: 'Erro ao buscar usuários' } },
         { status: 500 }
       );
     }
   } catch (error) {
-    console.error('Erro ao processar consulta à DBLP:', error);
+    console.error('Erro ao processar busca de usuários:', error);
     return NextResponse.json(
       { data: { mensagem: 'Erro interno do servidor' } },
       { status: 500 }
