@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User, getPoolDb } from '../database/factory';
+import { LocalStorageUser } from '@/services/user';
 
 const jwtSecret = process.env.JWT_SECRET || '4queijos';
 
@@ -26,7 +27,9 @@ export async function registrarUsuario(
   return usuarioRegistrado;
 }
 
-export async function loginUsuario(bodyParams: Omit<User, 'id' | 'nome'>) {
+export async function loginUsuario(
+  bodyParams: Omit<User, 'id' | 'nome'>
+): Promise<LocalStorageUser> {
   const { email, senha } = bodyParams;
   const query = 'SELECT * FROM users WHERE email = $1';
   const values = [email];
@@ -34,11 +37,11 @@ export async function loginUsuario(bodyParams: Omit<User, 'id' | 'nome'>) {
 
   const usuario = result.rows[0];
   if (usuario && (await bcrypt.compare(senha, usuario.senha))) {
-    const token = jwt.sign({ id: usuario.id, nome: usuario.nome }, jwtSecret, {
-      expiresIn: undefined,
-    });
+    const token = jwt.sign({ id: usuario.id, nome: usuario.nome }, jwtSecret);
     return {
-      usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email },
+      id: usuario.id,
+      nome: usuario.nome,
+      email: usuario.email,
       token,
     };
   } else {

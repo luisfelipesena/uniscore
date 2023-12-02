@@ -5,20 +5,18 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useEffect } from 'react';
-import { SessionProvider } from 'next-auth/react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import ToastProvider from '@/app/components/ToastProvider';
+import { AuthProvider } from '@/contexts/auth';
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     async function initializeDatabase() {
       try {
         await axios.post('/api/initDatabase');
-        console.log('Tabelas criadas ou já existentes.');
-      } catch (error) {
-        console.error('Erro ao inicializar o banco de dados:', error);
+      } catch (error: any) {
+        toast.error(`Erro ao criar tabelas: ${error?.message}`);
       }
     }
 
@@ -63,9 +61,11 @@ export default function App({
         <title>Produção científica</title>
       </Head>
       <ThemeProvider theme={theme}>
-        <SessionProvider session={session}>
-          <Component {...pageProps} />
-        </SessionProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Component {...pageProps} />
+          </AuthProvider>
+        </ToastProvider>
       </ThemeProvider>
     </>
   );
