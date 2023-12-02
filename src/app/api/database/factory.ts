@@ -1,12 +1,16 @@
-import { createKysely } from '@vercel/postgres-kysely';
+import { Pool } from 'pg';
 
-export interface ITestTable {
+export type User = {
   id: number;
-  name: string;
-}
+  nome: string;
+  email: string;
+  senha: string;
+};
 
-export interface IDatabase {
-  teste: ITestTable;
-}
-
-export const database = createKysely<IDatabase>();
+export const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: 5432,
+});
