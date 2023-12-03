@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { User, getPoolDb } from '../database/factory';
-import { LocalStorageUser } from '@/services/user';
+import { LocalStorageUser } from '@/services/user-storage';
 
 const jwtSecret = process.env.JWT_SECRET || '4queijos';
 
@@ -49,15 +49,11 @@ export async function loginUsuario(
   }
 }
 
-export async function buscarUsuarios(): Promise<any[] | undefined> {
-  try {
-    const query = 'SELECT * FROM users';
-    const result = await pool.query(query);
+export async function buscarUsuarioPorId(
+  id: string
+): Promise<User | undefined> {
+  const query = 'SELECT * FROM users WHERE id = $1';
+  const result = await pool.query(query, [id]);
 
-    return result.rows;
-  } catch (error) {
-    console.error('Erro ao buscar usuários:', error);
-    return undefined;
-  }
+  return result.rows[0];
 }
-

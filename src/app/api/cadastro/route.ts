@@ -4,7 +4,7 @@ import { registrarUsuario } from '../controllers/users';
 
 export async function POST(
   req: Request
-): Promise<NextResponse<{ data: User | undefined }>> {
+): Promise<NextResponse<User | undefined>> {
   try {
     const data = (await req.json()) as User;
     const { email, senha, nome } = data as User;
@@ -14,20 +14,13 @@ export async function POST(
       senha,
     });
 
-    return NextResponse.json(
-      { data: usuarioRegistrado },
-      {
-        status: 200,
-      }
-    );
+    return NextResponse.json(usuarioRegistrado, {
+      status: 200,
+    });
   } catch (err: any) {
-    console.error(err?.message);
-    return NextResponse.json(
-      { data: undefined },
-      {
-        status: 500,
-        statusText: err?.message ?? 'Erro interno do servidor',
-      }
-    );
+    return NextResponse.json(undefined, {
+      status: 500,
+      statusText: err?.message ?? 'Erro interno do servidor',
+    });
   }
 }

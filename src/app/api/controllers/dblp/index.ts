@@ -1,10 +1,16 @@
 import axios from 'axios';
 
+export type DBLPData = {
+  author: string;
+};
+
 export async function consultarDadosDBLP(
   autor: string
-): Promise<any | undefined> {
+): Promise<DBLPData | undefined> {
   try {
-    const response = await axios.get(`https://dblp.org/search/author/api?q=${autor}&format=json`);
+    const response = await axios.get(
+      `https://dblp.org/search/author/api?q=${autor}&format=json`
+    );
 
     return response.data;
   } catch (error) {

@@ -10,9 +10,10 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useAuth } from '@/contexts/auth';
 import { LocalStorageUser } from '@/services/user-storage';
+import Image from 'next/image';
 
 export function DefaultHeader() {
-  const authFunctions = useAuth();
+  const { login, logout, user } = useAuth();
 
   const {
     register: loginRegister,
@@ -31,18 +32,13 @@ export function DefaultHeader() {
   const onSignInSubmit = async (data: Omit<User, 'id'>) => {
     const { nome, email, senha } = data;
     try {
-      const response = await axios.post<{ data: User | undefined }>(
-        '/api/cadastro',
-        {
-          email,
-          senha,
-          nome,
-        }
-      );
+      const response = await axios.post<User | undefined>('/api/cadastro', {
+        email,
+        senha,
+        nome,
+      });
 
-      toast.success(
-        `Usuário ${response.data.data?.nome} cadastrado com sucesso`
-      );
+      toast.success(`Usuário ${response.data?.nome} cadastrado com sucesso`);
       cadastroReset();
     } catch (err: any) {
       toast.error(`Erro ao fazer login: ${err?.error}`);
@@ -62,7 +58,7 @@ export function DefaultHeader() {
         return;
       }
 
-      authFunctions.login(response.data);
+      login(response.data);
       loginReset();
     } catch (err: any) {
       toast.error(`Erro ao fazer login: ${err?.error}`);
@@ -73,25 +69,26 @@ export function DefaultHeader() {
   const [signUpCliked, setSignUpCliked] = React.useState(false);
 
   React.useEffect(() => {
-    const userAuthenticated = authFunctions.user?.token;
+    const userAuthenticated = user?.token;
     if (userAuthenticated) {
       setSignInCliked(false);
       setSignUpCliked(false);
     }
-  }, [authFunctions.user]);
+  }, [user]);
 
   return (
     <React.Fragment>
       <Header className={styles.defaultHeaderContainer}>
-        <h1>Uniscore</h1>
+        <Image priority src="/logo.svg" alt="Logo" width={180} height={30} />
 
         <div className={styles.buttonsDiv}>
-          {authFunctions.user?.nome ? (
+          {user?.nome ? (
             <React.Fragment>
-              <span>Olá, {authFunctions.user.nome}</span>
+              <span>Olá, {user.nome}</span>
               <Button
+                variant="contained"
                 onClick={() => {
-                  authFunctions.logout();
+                  logout();
                 }}
               >
                 Sair
@@ -99,9 +96,11 @@ export function DefaultHeader() {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Button onClick={() => setSignInCliked(true)}>Entrar</Button>
+              <Button variant="outlined" onClick={() => setSignInCliked(true)}>
+                Entrar
+              </Button>
 
-              <Button variant="outlined" onClick={() => setSignUpCliked(true)}>
+              <Button variant="contained" onClick={() => setSignUpCliked(true)}>
                 Cadastrar
               </Button>
             </React.Fragment>
@@ -111,7 +110,10 @@ export function DefaultHeader() {
 
       <Modal
         title="Login Admin"
-        onClose={() => setSignInCliked(false)}
+        onClose={() => {
+          loginReset();
+          setSignInCliked(false);
+        }}
         open={signInCliked}
         className={styles.modal}
       >
@@ -142,7 +144,10 @@ export function DefaultHeader() {
 
       <Modal
         title="Cadastrar administrador"
-        onClose={() => setSignUpCliked(false)}
+        onClose={() => {
+          cadastroReset();
+          setSignUpCliked(false);
+        }}
         open={signUpCliked}
         className={styles.modal}
       >

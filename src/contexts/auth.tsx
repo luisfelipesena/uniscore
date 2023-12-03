@@ -5,7 +5,9 @@ import {
   removeUserStorage,
   saveUserStorage,
 } from '@/services/user-storage';
+import axios from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 type User = LocalStorageUser;
 
@@ -29,9 +31,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const userAuthenticated = getUserStorage();
-    // get user from banco
     if (userAuthenticated) {
-      setUser(userAuthenticated);
+      axios
+        .get<LocalStorageUser>(
+          `/api/consultarUsuario?id=${userAuthenticated.id}`
+        )
+        .then((response) => {
+          if (response.data.token !== userAuthenticated.token) {
+            logout();
+          }
+
+          setUser(userAuthenticated);
+        })
+        .catch((err) => {
+          toast.error(`Erro ao consultar usuário: ${err}	`);
+          logout();
+        });
     }
   }, []);
 
