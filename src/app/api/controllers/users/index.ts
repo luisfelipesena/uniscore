@@ -10,7 +10,7 @@ const pool = getPoolDb();
 export async function registrarUsuario(
   bodyParams: Omit<User, 'id'>
 ): Promise<User> {
-  const { nome, email, senha } = bodyParams;
+  const { nome, email, senha, active } = bodyParams;
   const userQuery = 'SELECT * FROM users WHERE email = $1';
   const userAlreadyExists = await pool.query(userQuery, [email]);
   if (userAlreadyExists.rows[0]) {
@@ -19,8 +19,8 @@ export async function registrarUsuario(
 
   const senhaCriptografada = await bcrypt.hash(senha, 10);
   const query =
-    'INSERT INTO users (nome, email, senha) VALUES ($1, $2, $3) RETURNING id, nome, email';
-  const values = [nome, email, senhaCriptografada];
+    'INSERT INTO users (nome, email, active, senha) VALUES ($1, $2, $3, $4) RETURNING id, nome, email, active';
+  const values = [nome, email, active, senhaCriptografada];
   const result = await pool.query<User>(query, values);
 
   const usuarioRegistrado = result.rows[0];
@@ -28,7 +28,7 @@ export async function registrarUsuario(
 }
 
 export async function loginUsuario(
-  bodyParams: Omit<User, 'id' | 'nome'>
+  bodyParams: Omit<User, 'id' | 'nome' | 'active'>
 ): Promise<LocalStorageUser> {
   const { email, senha } = bodyParams;
   const query = 'SELECT * FROM users WHERE email = $1';
@@ -36,6 +36,10 @@ export async function loginUsuario(
   const result = await pool.query(query, values);
 
   const usuario = result.rows[0];
+  if (usuario?.active === false) {
+    throw new Error('Usuário não está ativo');
+  }
+
   if (usuario && (await bcrypt.compare(senha, usuario.senha))) {
     const token = jwt.sign({ id: usuario.id, nome: usuario.nome }, jwtSecret);
     return {

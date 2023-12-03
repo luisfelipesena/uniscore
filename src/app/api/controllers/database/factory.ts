@@ -5,6 +5,7 @@ export type User = {
   nome: string;
   email: string;
   senha: string;
+  active: boolean;
 };
 
 let poolDb: Pool | null = null;
@@ -24,7 +25,8 @@ export const createTables = async () => {
       id SERIAL PRIMARY KEY,
       nome VARCHAR(255) NOT NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
-      senha VARCHAR(255) NOT NULL
+      senha VARCHAR(255) NOT NULL,
+      active BOOLEAN NOT NULL
     );
   `;
 

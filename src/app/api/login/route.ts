@@ -5,7 +5,7 @@ import { LocalStorageUser } from '@/services/user-storage';
 
 export async function POST(
   req: Request
-): Promise<NextResponse<LocalStorageUser | undefined>> {
+): Promise<NextResponse<{ data: LocalStorageUser | undefined }>> {
   try {
     const data = (await req.json()) as User;
     const { email, senha } = data as User;
@@ -14,13 +14,19 @@ export async function POST(
       senha,
     });
 
-    return NextResponse.json(dadosUsuario, {
-      status: 200,
-    });
+    return NextResponse.json(
+      { data: dadosUsuario },
+      {
+        status: 200,
+      }
+    );
   } catch (err: any) {
-    return NextResponse.json(undefined, {
-      status: 500,
-      statusText: err?.message ?? 'Erro interno do servidor',
-    });
+    return NextResponse.json(
+      { data: undefined },
+      {
+        status: 500,
+        statusText: err?.message ?? 'Erro interno do servidor',
+      }
+    );
   }
 }

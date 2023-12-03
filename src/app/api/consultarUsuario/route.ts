@@ -4,18 +4,17 @@ import { User } from '../controllers/database/factory';
 
 export async function GET(
   req: Request
-): Promise<NextResponse<User | undefined>> {
+): Promise<NextResponse<{ data: User | undefined }>> {
   try {
     const url = new URL(req.url);
     const id = url.searchParams.get('id') ?? '';
     const usuario = await buscarUsuarioPorId(id);
-
     if (!usuario) {
       throw new Error('Usuário não encontrado');
     }
 
-    return NextResponse.json(usuario, { status: 200 });
+    return NextResponse.json({ data: usuario }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(undefined, { status: 500 });
+    return NextResponse.json({ data: undefined }, { status: 500 });
   }
 }

@@ -1,4 +1,33 @@
-.main,
+.main {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 68.5px);
+  padding: 16px;
+}
+
 .footer {
   padding: 16px;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  margin-bottom: 68px;
+
+  & .mainInput {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 16px;
+
+    & input {
+      background-color: white;
+      border-radius: 4px;
+    }
+  }
+
+  & .mainButton {
+    height: 54px;
+  }
 }

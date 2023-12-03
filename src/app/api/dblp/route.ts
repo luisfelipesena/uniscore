@@ -3,7 +3,7 @@ import { DBLPData, consultarDadosDBLP } from '../controllers/dblp/index';
 
 export async function GET(
   req: Request
-): Promise<NextResponse<DBLPData | undefined>> {
+): Promise<NextResponse<{ data: DBLPData | undefined }>> {
   const url = new URL(req.url);
   const autor = url.searchParams.get('autor') || '';
 
@@ -13,8 +13,8 @@ export async function GET(
       throw new Error('Autor não encontrado');
     }
 
-    return NextResponse.json(dadosDBLP, { status: 200 });
+    return NextResponse.json({ data: dadosDBLP }, { status: 200 });
   } catch (error) {
-    return NextResponse.json(undefined, { status: 500 });
+    return NextResponse.json({ data: undefined }, { status: 500 });
   }
 }

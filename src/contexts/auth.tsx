@@ -36,7 +36,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .get<LocalStorageUser>(
           `/api/consultarUsuario?id=${userAuthenticated.id}`
         )
-        .then((response) => {
+        .then((response): void => {
+          console.log({ data: response.data });
           if (response.data.token !== userAuthenticated.token) {
             logout();
           }

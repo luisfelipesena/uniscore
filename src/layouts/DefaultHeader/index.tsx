@@ -32,28 +32,35 @@ export function DefaultHeader() {
   const onSignInSubmit = async (data: Omit<User, 'id'>) => {
     const { nome, email, senha } = data;
     try {
-      const response = await axios.post<User | undefined>('/api/cadastro', {
-        email,
-        senha,
-        nome,
-      });
+      const { data: response } = await axios.post<{ data?: User }>(
+        '/api/cadastro',
+        {
+          email,
+          senha,
+          nome,
+        }
+      );
 
-      toast.success(`Usuário ${response.data?.nome} cadastrado com sucesso`);
+      toast.success(`Usuário ${response?.data?.nome} cadastrado com sucesso`);
       cadastroReset();
     } catch (err: any) {
-      toast.error(`Erro ao fazer login: ${err?.error}`);
+      const errorMessage = err?.response?.statusText ?? err?.message;
+      toast.error(`Erro ao fazer cadastro: ${errorMessage}`);
     }
   };
 
   const onLoginSubmit = async (data: Omit<User, 'id' | 'nome'>) => {
     const { email, senha } = data;
     try {
-      const response = await axios.post<LocalStorageUser>('/api/login', {
-        email,
-        senha,
-      });
+      const { data: response } = await axios.post<{ data?: LocalStorageUser }>(
+        '/api/login',
+        {
+          email,
+          senha,
+        }
+      );
 
-      if (!response.data) {
+      if (!response?.data) {
         toast.error(`Erro ao fazer login`);
         return;
       }
@@ -61,7 +68,8 @@ export function DefaultHeader() {
       login(response.data);
       loginReset();
     } catch (err: any) {
-      toast.error(`Erro ao fazer login: ${err?.error}`);
+      const errorMessage = err?.response?.statusText ?? err?.message;
+      toast.error(`Erro ao fazer login: ${errorMessage}`);
     }
   };
 
