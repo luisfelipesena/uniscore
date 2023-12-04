@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
-import { DBLPData, consultarDadosDBLP } from '../controllers/dblp/index';
+import {
+  DBLPDataResponse,
+  consultarDadosDBLP,
+} from '../controllers/dblp/index';
 
 export async function GET(
   req: Request
-): Promise<NextResponse<{ data: DBLPData | undefined }>> {
+): Promise<NextResponse<{ data: DBLPDataResponse | undefined }>> {
   const url = new URL(req.url);
   const autor = url.searchParams.get('autor') || '';
 
