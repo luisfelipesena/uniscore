@@ -7,7 +7,7 @@ type FooterProps = HtmlHTMLAttributes<HTMLDivElement>;
 export const Footer = ({ children, className, ...rest }: FooterProps) => {
   return (
     <footer className={classnames(styles.footerContainer, className)} {...rest}>
-      <div className={styles.footer}>{children}</div>
+      {children}
     </footer>
   );
 };

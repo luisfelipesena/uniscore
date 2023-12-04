@@ -68,20 +68,21 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider theme={theme}>
         <ToastProvider>
           <AuthProvider>
+            <DefaultHeader />
+
             <Layout
               style={{
                 backgroundImage: `url(${backgroundImage.src})`,
                 backgroundPosition: 'center',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
+                height: '100%',
               }}
             >
-              <DefaultHeader />
-
               <Component {...pageProps} />
-
-              <DefaultFooter />
             </Layout>
+
+            <DefaultFooter />
           </AuthProvider>
         </ToastProvider>
       </ThemeProvider>

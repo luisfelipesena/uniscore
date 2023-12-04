@@ -1,20 +1,10 @@
-.main {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 68.5px);
-  padding: 16px;
-}
-
-.footer {
-  padding: 16px;
-}
-
 .searchContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1 1 auto;
-  margin-bottom: 68px;
+  margin-top: -64px;
+  height: 100%;
+  align-self: center;
 
   & .mainInput {
     width: 100%;

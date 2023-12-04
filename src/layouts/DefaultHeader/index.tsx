@@ -11,6 +11,7 @@ import axios from 'axios';
 import { useAuth } from '@/contexts/auth';
 import { LocalStorageUser } from '@/services/user-storage';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function DefaultHeader() {
   const { login, logout, user } = useAuth();
@@ -87,7 +88,9 @@ export function DefaultHeader() {
   return (
     <React.Fragment>
       <Header className={styles.defaultHeaderContainer}>
-        <Image priority src="/logo.svg" alt="Logo" width={180} height={30} />
+        <Link href="/">
+          <Image priority src="/logo.svg" alt="Logo" width={180} height={30} />
+        </Link>
 
         <div className={styles.buttonsDiv}>
           {user?.nome ? (

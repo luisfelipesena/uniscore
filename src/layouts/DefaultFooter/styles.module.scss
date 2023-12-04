@@ -1,4 +1,9 @@
 .footer {
   padding: 16px;
   margin-top: auto;
+  display: flex;
+  align-items: center;
+  color: white;
+  max-width: $ultra-large-screen;
+  flex: 1 1 auto;
 }
