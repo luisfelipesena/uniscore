@@ -10,7 +10,7 @@ export type User = {
 
 let poolDb: Pool | null = null;
 
-export const getPoolDb = () => {
+export const getPoolDb = (): Pool => {
   if (!poolDb) {
     poolDb = new Pool({
       connectionString: process.env.POSTGRES_URL + '?sslmode=require',
@@ -30,7 +30,19 @@ export const createTables = async () => {
     );
   `;
 
+  const createAuthorsTable = `
+  CREATE TABLE IF NOT EXISTS authors (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    score NUMBER NOT NULL,
+    vinculo VARCHAR(255),
+    academia VARCHAR(255),
+    url VARCHAR(255) NOT NULL,
+  );
+`;
+
   const pool = getPoolDb();
   await pool.query(createUserTable);
+  await pool.query(createAuthorsTable);
   console.log('Tabelas criadas ou já existentes.');
 };
