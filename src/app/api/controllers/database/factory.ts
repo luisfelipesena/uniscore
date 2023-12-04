@@ -34,7 +34,7 @@ export const createTables = async () => {
   CREATE TABLE IF NOT EXISTS authors (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
-    score NUMBER NOT NULL,
+    score INT NOT NULL,
     vinculo VARCHAR(255),
     academia VARCHAR(255),
     url VARCHAR(255) NOT NULL
