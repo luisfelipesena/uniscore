@@ -37,7 +37,7 @@ export const createTables = async () => {
     score NUMBER NOT NULL,
     vinculo VARCHAR(255),
     academia VARCHAR(255),
-    url VARCHAR(255) NOT NULL,
+    url VARCHAR(255) NOT NULL
   );
 `;
 
